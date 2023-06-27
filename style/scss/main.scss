@@ -1,0 +1,161 @@
+@import "./vendors/bootstrap";
+
+// condicional
+
+$fondo: #049fd3;
+
+.container {
+    background-color: $fondo;
+
+    @if lightness($fondo) > 75 {
+        color: black;
+    } @else if lightness($fondo) > 50 {
+        color: grey;
+    } @else {
+        color: white;
+    }
+}
+
+// bucle
+
+// $i -> 1 -> 2 -> 3
+@for $i from 1 to 4 {
+    .color-#{$i} {
+        color: black;
+    }
+}
+
+/* FOR */
+$columnas: 6;
+$column-width: 100px;
+
+@for $i from 1 through $columnas {
+    .mt-#{$i} {
+        margin: $i * 5px;
+    }
+}
+
+/* FOR EACH */
+
+$colores: (red, blue, yellow, green);
+
+// $color -> red -> blue -> yellow -> green
+@each $color in $colores {
+    .buttn-#{$color} {
+        color: $color;
+    }
+}
+
+// lista
+$font-sizes: 12px, 14px, 16px;
+
+@each $tamanio in $font-sizes {
+    .text-#{$tamanio} {
+        font-size: $tamanio;
+    }
+}
+
+// mapa
+$redes-sociales: (
+    facebook: blue,
+    twitter: lightblue,
+    youtube: red,
+    spotify: green,
+);
+
+@each $red-social, $color in $redes-sociales {
+    .icono-#{$red-social} {
+        background-color: $color;
+    }
+}
+
+$colors: (
+    primary: #5edd64,
+    secondary: rgb(255, 0, 68),
+    warning: yellow,
+    important: blue
+);
+
+@each $nombre, $color in $colors {
+
+    .botonn-#{$nombre} {
+        background-color: $color;
+    }
+
+}
+
+// extend
+%boton {
+    padding: 20px;
+    width: 150px;
+    height: 50px;
+}
+
+.boton-primario {
+    @extend %boton;
+    background-color: blue;
+
+
+
+}
+
+.boton-peligro {
+    @extend %boton;
+    background-color: red;
+}
+
+
+
+/* mixin */
+@mixin flex($direccion: row, $wrap: row) {
+    display: flex;
+    flex-wrap: $wrap;
+    flex-direction: $direccion;
+    justify-content: center;
+    align-items: center;
+}
+
+.aside {
+    @include flex(row-reverse);
+}
+
+.footer {
+    @include flex($wrap: no-wrap);
+}
+
+
+/* mixin con @content */
+
+@mixin mobile {
+    @media (max-width: 568px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: 768px) {
+        @content;
+    }
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+
+    @include tablet {
+        flex-direction: row-reverse;
+    }
+
+    @include mobile {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    nav {
+        a {
+            @include mobile {
+                font-size: 0.7rem;
+            }
+        }
+    }
+}
